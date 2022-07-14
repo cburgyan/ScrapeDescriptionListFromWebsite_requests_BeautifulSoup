@@ -1,4 +1,3 @@
-import sys
 import bs4
 import requests
 from term_and_description import TermAndDescription
@@ -16,6 +15,7 @@ def convert_encoding_into_readable_symbols(text):
 
 def blank_out_term_in_description(term, description):
     return description.replace(term, '______')
+
 
 #Get Website Page
 response = requests.get(url='https://docs.python.org/3/glossary.html#glossary')
