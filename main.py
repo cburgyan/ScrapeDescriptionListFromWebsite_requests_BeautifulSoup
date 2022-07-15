@@ -1,6 +1,10 @@
+import re
 import bs4
 import requests
 from term_and_description import TermAndDescription
+
+
+number_of_capital_lower_case_variants = 0
 
 
 def convert_encoding_into_readable_symbols(text):
@@ -13,8 +17,14 @@ def convert_encoding_into_readable_symbols(text):
     return text
 
 
-def blank_out_term_in_description(term, description):
-    return description.replace(term, '______')
+def blank_out_term_in_description(term1, description1):
+    # global number_of_capital_lower_case_variants
+    description1 = description1.replace(term, '^___*___^')
+    case_insensitive_term = re.compile(re.escape(term1), re.IGNORECASE)
+    description2 = case_insensitive_term.sub('^___*___^', description1)
+    # if description != description2:
+    #     number_of_capital_lower_case_variants += 1
+    return description2
 
 
 #Get Website Page
@@ -69,3 +79,4 @@ with open('python_glossary.csv', 'w') as file:
             print(f'{definition.description[:-1]}\t{definition.term}')
             print('###########')
 print(f'Number of descriptions that still have (Exception-throwing) encodings: {count}')
+print(f'Number of variants of term: {number_of_capital_lower_case_variants}')
